@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class ExcelReader {
-	public static Workbook read(String path) throws BiffException, IOException {
-		return Workbook.getWorkbook(new File(path));
+	public static Sheet read(String path, int sheetIndex) throws BiffException, IOException {
+		return Workbook.getWorkbook(new File(path)).getSheet(sheetIndex);
 	}
 }
