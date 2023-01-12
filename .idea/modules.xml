@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/PKU-IM-Java2022.iml" filepath="$PROJECT_DIR$/.idea/PKU-IM-Java2022.iml" />
+      <module fileurl="file://$PROJECT_DIR$/src/webapp/webapp.iml" filepath="$PROJECT_DIR$/src/webapp/webapp.iml" />
     </modules>
   </component>
 </project>

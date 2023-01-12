@@ -25,4 +25,4 @@ Final project for Java in Dept. IM, Peking University
   - 考虑到指标数量多、国家数量少、年份少，数据量小，为增删改查方便，满足基本范式即可。故构建单表如下：
   - ![image-20230112141610618](README.assets/image-20230112141610618.png)
 
-- 存入数据
+- 存入数据，并转储为java-2022.sql
