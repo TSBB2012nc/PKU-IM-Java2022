@@ -1,10 +1,9 @@
 package GenData;
 import jxl.Sheet;
 import jxl.read.biff.BiffException;
-import util.ExcelReader;
+import Util.ExcelReader;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 import static GenData.ArticlesSolution.saveAsFile;
 

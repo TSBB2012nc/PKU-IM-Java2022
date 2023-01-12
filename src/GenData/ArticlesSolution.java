@@ -1,5 +1,5 @@
 package GenData;
-import util.TxtReader;
+import Util.TxtReader;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -15,10 +15,11 @@ public class ArticlesSolution {
     public static void main(String[] args) {
         ArrayList<String> full = getFullDataset();
         Map<String, Integer> authorCnt = new HashMap<>(); // TODO: 作者消歧问题
-        Map<String, Set<String>> authorCache = new HashMap<>();
-        authorCache.put("2019", new HashSet<>());
-        authorCache.put("2020", new HashSet<>());
-        authorCache.put("2021", new HashSet<>());
+        Set<String> authorCache = new HashSet<>();
+//        Map<String, Set<String>> authorCache = new HashMap<>();
+//        authorCache.put("2019", new HashSet<>());
+//        authorCache.put("2020", new HashSet<>());
+//        authorCache.put("2021", new HashSet<>());
         // D-111 顶级学者人口数量
         int[][] d111 = new int[5][3];  // 0: PRC[0: 2019; 1: 2020; 2: 2021]; 1: ENG; 2: FRA; 3: USA; 4: RUS
         // D-112 论文产出量
@@ -32,7 +33,12 @@ public class ArticlesSolution {
             calD111(d111, authorCnt, authorCache, splits);
             calD112(d112, splits);
         }
-
+        // 对于d111每一行都是相较于前一年新增的顶级学者数量，因此再遍历一遍加上前面的基数
+        for(int row=0;row<5;row++) {
+            int one = d111[row][0];
+            d111[row][1] += one;
+            d111[row][2] += d111[row][1];
+        }
         saveAsFile("D-111.csv", d111);
         saveAsFile("D-112.csv", d112);
 
@@ -67,7 +73,6 @@ public class ArticlesSolution {
             e.printStackTrace();
         }
     }
-
     /**
      * pick out lines that among 5 countries & between 2019 and 2021
      * @param year: year info in splits
@@ -149,7 +154,7 @@ public class ArticlesSolution {
      * @param authorCache {year: {authors}}
      * @param splits line cut
      */
-    public static void calD111(int[][] resContainer, Map<String, Integer> authorCnt, Map<String, Set<String>> authorCache, String[] splits){
+    public static void calD111(int[][] resContainer, Map<String, Integer> authorCnt, Set<String> authorCache, String[] splits){
         String[] authors = splits[1].split("; ");
         String year = splits[46];
         String country = countryCheck(splits[24]);
@@ -169,17 +174,18 @@ public class ArticlesSolution {
                 cnt += 1;
                 authorCnt.put(a, cnt); // 更新发文量
                 if (cnt >= 2){  // 至少发文两篇，满足高被引资格
-                    if (authorCache.get(year).contains(a)) return;  // 该作者在当年已经被记录
+                    if (authorCache.contains(a)) return;  // 该作者已经被记录
                     else {
-                        authorCache.get(year).add(a);
+                        authorCache.add(a);
                         resContainer[i][j] += 1;
                     }
                 }
             }
             else {
-                authorCnt.put(a,0);
+                authorCnt.put(a,1);
             }
         }
+
     }
     /**
      * calculate D-112
@@ -224,11 +230,11 @@ public class ArticlesSolution {
             return "PRC";
         } else if (lineRP.contains("usa") || lineRP.contains("america") || lineRP.contains("united states")) {
             return "USA";
-        } else if (lineRP.contains("france") || lineRP.contains("fr.")) {
+        } else if (lineRP.contains("france") || lineRP.contains("fr.") || lineRP.contains(" fr ")) {
             return "FRA";
-        } else if (lineRP.contains("england") || lineRP.contains("united kingdom") || lineRP.contains("uk")) {
+        } else if (lineRP.contains("england") || lineRP.contains("united kingdom") || lineRP.contains(" uk ")) {
             return "ENG";
-        } else if (lineRP.contains("russia")) {
+        } else if (lineRP.contains("russia") || lineRP.contains(" ru ")) {
             return "RUS";
         }else return "Other";
     }
