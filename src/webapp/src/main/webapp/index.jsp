@@ -1,3 +1,4 @@
+<%@ page import="Enitiy.CountryIndex" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="zh">
@@ -42,7 +43,7 @@
                 <div class="container-xl">
                     <ul class="navbar-nav">
                         <li class="nav-item active">
-                            <a class="nav-link" href="index.jsp">
+                            <a class="nav-link" href="index">
                                 <span class="nav-link-icon d-md-none d-lg-inline-block"><!-- Download SVG icon from http://tabler-icons.io/i/home -->
                                   <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><polyline points="5 12 3 12 12 3 21 12 19 12"></polyline><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7"></path><path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6"></path></svg>
                                 </span>
@@ -50,7 +51,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" href="dataview">
                                 <span class="nav-link-icon d-md-none d-lg-inline-block"><!-- Download SVG icon from http://tabler-icons.io/i/package -->
                                   <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><polyline points="12 3 20 7.5 20 16.5 12 21 4 16.5 4 7.5 12 3"></polyline><line x1="12" y1="12" x2="20" y2="7.5"></line><line x1="12" y1="12" x2="12" y2="21"></line><line x1="12" y1="12" x2="4" y2="7.5"></line><line x1="16" y1="5.25" x2="8" y2="9.75"></line></svg>
                                 </span>
@@ -66,44 +67,61 @@
     </div>
     <div class="row" style="justify-content: center;">
         <div id="main" style="width: 80%;height:400px;"></div>
-        <div class="btn-group">
-            <button type="button" class="btn btn-primary">研究情况</button>
-            <button type="button" class="btn btn-light">顶级学者人口数量</button>
-            <button type="button" class="btn btn-light">高被引文产出量</button>
-            <button type="button" class="btn btn-primary">应用情况</button>
-            <button type="button" class="btn btn-light">专利申请量</button>
-            <button type="button" class="btn btn-light">专利授权量</button>
-        </div>
+        <label>指标
+            <select class="btn-group" id="select" onchange="updateTarget()">
+                <option class="btn btn-primary" selected value="D11">研究情况</option>
+                <option class="btn btn-light" value="D111">顶级学者人口数量</option>
+                <option class="btn btn-light" value="D112">高被引文产出量</option>
+                <option class="btn btn-primary" value="D12">应用情况</option>
+                <option class="btn btn-light" value="D121">专利申请量</option>
+                <option class="btn btn-light" value="D122">专利授权量</option>
+            </select>
+        </label>
+
         <script type="text/javascript">
+            let allValue = ${list};
+            var mySelect = document.getElementById("select")
+            var target = mySelect.options[mySelect.selectedIndex].value;
+
+            function updateTarget() {
+                target = mySelect.options[mySelect.selectedIndex].value;
+                draw();
+            }
+
+            function genData(country, year) {
+                var targetElem = allValue.filter((t) => {
+                    if (t["国家"] === country && t["YEAR"] === year)
+                    return t
+                })[0]
+                return targetElem[target];
+            }
             var chartDom = document.getElementById('main');
             var myChart = echarts.init(chartDom);
             var option;
 
-            option = {
-                legend: {},
-                tooltip: {},
-                dataset: {
-                    source: [
-                        ['指标', '2019', '2020', '2021'],
-                        ['Matcha Latte', 43.3, 85.8, 93.7],
-                        ['Milk Tea', 83.1, 73.4, 55.1],
-                        ['Cheese Cocoa', 86.4, 65.2, 82.5],
-                        ['Walnut Brownie', 72.4, 53.9, 39.1]
-                    ]
-                },
-                xAxis: { type: 'category' },
-                yAxis: {},
-                // Declare several bar series, each will be mapped
-                // to a column of dataset.source by default.
-                series: [{ type: 'bar' }, { type: 'bar' }, { type: 'bar' }]
-            };
-
-            option && myChart.setOption(option);
+            function draw() {
+                option = {
+                    legend: {},
+                    tooltip: {},
+                    dataset: {
+                        source: [
+                            ['指标', '2019', '2020', '2021'],
+                            ['中国', genData("中国", "2019"), genData("中国", "2020"), genData("中国", "2021")],
+                            ['英国', genData("英国", "2019"), genData("英国", "2020"), genData("英国", "2021")],
+                            ['法国', genData("法国", "2019"), genData("法国", "2020"), genData("法国", "2021")],
+                            ['美国', genData("美国", "2019"), genData("美国", "2020"), genData("美国", "2021")],
+                            ['俄国', genData("俄国", "2019"), genData("俄国", "2020"), genData("俄国", "2021")]
+                        ]
+                    },
+                    xAxis: { type: 'category' },
+                    yAxis: {},
+                    series: [{ type: 'bar' }, { type: 'bar' }, { type: 'bar' }]
+                };
+                option && myChart.setOption(option);
+            }
+            draw();
         </script>
     </div>
 </div>
-
-
-
 </body>
 </html>

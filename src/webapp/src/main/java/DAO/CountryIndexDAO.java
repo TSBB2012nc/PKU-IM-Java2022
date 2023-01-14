@@ -9,11 +9,12 @@ public interface CountryIndexDAO {
     List<CountryIndex> getAllCountryIndex();
 
     // 添加国家指标
-    int addCountryIndex(CountryIndex ci);
+    int addCountryIndex(String COUNTRY, float D11, float D111, float D112, float D12, float D121, float D122, String YEAR);
 
     // 修改国家指标
     int updateCountryIndex(CountryIndex ci);
 
     // 删除国家指标
     int delCountryIndex(String country, String year);
+
 }

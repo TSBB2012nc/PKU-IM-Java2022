@@ -6,6 +6,7 @@ import Util.DBUtil;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -25,11 +26,11 @@ public class CountryIndexImpl implements CountryIndexDAO {
     }
 
     @Override
-    public int addCountryIndex(CountryIndex ci) {
+    public int addCountryIndex(String COUNTRY, float D11, float D111, float D112, float D12, float D121, float D122, String YEAR) {
         int row = 0 ;
         String sql = "INSERT INTO `java-2022`.`index` VALUES (?,?,?,?,?,?,?,?)";
         try {
-            row = qr.update(DBUtil.connect(), sql, ci.getCOUNTRY(), ci.getD11(), ci.getD111(), ci.getD112(), ci.getD12(), ci.getD121(),ci.getD122(), ci.getYEAR());
+            row = qr.update(DBUtil.connect(), sql, COUNTRY, D11, D111, D112, D12, D121, D122, YEAR);
         } catch (SQLException e) {
             e.printStackTrace();
         }

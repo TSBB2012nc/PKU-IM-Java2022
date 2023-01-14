@@ -26,3 +26,20 @@ Final project for Java in Dept. IM, Peking University
   - ![image-20230112141610618](README.assets/image-20230112141610618.png)
 
 - 存入数据，并转储为java-2022.sql
+
+## 任务4：数据可视化
+
+- Entity：按照表结构，规定每一年的国家指标为一个实体，由COUNTRY和YEAR属性唯一确定
+- DAO：创建读取数据的函数
+- Serverlet：IndexServerlet向页面传输所有数据（json化）
+- jsp：使用echarts展示数据，并且按照select的指标进行数值切换
+
+![image-20230114115754125](README.assets/image-20230114115754125.png)
+
+可以切换指标
+
+![image-20230114115823685](README.assets/image-20230114115823685.png)
+
+## 任务5：数据增删改查
+
+![image-20230114184112403](README.assets/image-20230114184112403.png)
