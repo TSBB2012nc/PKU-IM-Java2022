@@ -16,6 +16,18 @@
     <!-- 选项 1：包含 Popper 的 Bootstrap 集成包 -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="echarts.js"></script>
+    <script type="text/javascript">
+        function modifyInput(country, d11, d111, d112, d12, d121, d122, year) {
+            document.getElementById("input-COUNTRY").value = country;
+            document.getElementById("input-D11").value = d11;
+            document.getElementById("input-D111").value = d111;
+            document.getElementById("input-D112").value = d112;
+            document.getElementById("input-D12").value = d12;
+            document.getElementById("input-D121").value = d121;
+            document.getElementById("input-D122").value = d122;
+            document.getElementById("input-YEAR").value = year;
+        }
+    </script>
 </head>
 <body>
 <div class="container">
@@ -76,7 +88,7 @@
                     <h1 class="modal-title fs-5">修改</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form id="modify" name="modify" method="post" class="form-floating" action="">
+                <form id="modify" name="modify" method="post" class="form-floating" action="UpdateServlet">
                 <div class="modal-body">
                     <div class="form-floating">
                         <input class="form-control" id="input-COUNTRY" placeholder="国家" value="">
@@ -112,7 +124,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
                     <button type="submit" class="btn btn-primary">提交</button>
                 </div>
                 </form>
@@ -123,41 +135,41 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="staticBackdropLabel">修改</h1>
+                    <h1 class="modal-title fs-5" id="addModalLabel">添加</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form id="add" name="add" method="post" class="form-floating" action="InsertServerlet">
                     <div class="modal-body">
                         <div class="form-floating">
-                            <input class="form-control" id="add-COUNTRY" placeholder="国家" value="">
+                            <input class="form-control" id="add-COUNTRY" name="add-COUNTRY" placeholder="国家" value="">
                             <label for="input-COUNTRY">国家</label>
                         </div>
                         <div class="form-floating">
-                            <input class="form-control" id="add-D11" placeholder="D11" value="">
+                            <input class="form-control" id="add-D11" name="add-D11" placeholder="D11" value="">
                             <label for="input-COUNTRY">D11</label>
                         </div>
                         <div class="form-floating">
-                            <input class="form-control" id="add-D111" placeholder="D111" value="">
+                            <input class="form-control" id="add-D111" name="add-D111" placeholder="D111" value="">
                             <label for="input-COUNTRY">D111</label>
                         </div>
                         <div class="form-floating">
-                            <input class="form-control" id="add-D112" placeholder="D112" value="">
+                            <input class="form-control" id="add-D112" name="add-D112" placeholder="D112" value="">
                             <label for="input-COUNTRY">D112</label>
                         </div>
                         <div class="form-floating">
-                            <input class="form-control" id="add-D12" placeholder="D12" value="">
+                            <input class="form-control" id="add-D12" name="add-D12" placeholder="D12" value="">
                             <label for="input-COUNTRY">D12</label>
                         </div>
                         <div class="form-floating">
-                            <input class="form-control" id="add-D121" placeholder="D121" value="">
+                            <input class="form-control" id="add-D121" name="add-D121" placeholder="D121" value="">
                             <label for="input-COUNTRY">D121</label>
                         </div>
                         <div class="form-floating">
-                            <input class="form-control" id="add-D122" placeholder="D122" value="">
+                            <input class="form-control" id="add-D122" name="add-D122" placeholder="D122" value="">
                             <label for="input-COUNTRY">D122</label>
                         </div>
                         <div class="form-floating">
-                            <input class="form-control" id="add-YEAR" placeholder="年份" value="">
+                            <input class="form-control" id="add-YEAR" name="add-YEAR" placeholder="年份" value="">
                             <label for="input-COUNTRY">年份</label>
                         </div>
                     </div>
@@ -198,14 +210,16 @@
                     <td>${ci.getD122()}</td>
                     <td>${ci.getYEAR()}</td>
                     <td>
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modifyModal">修改</button>
-                        <button class="btn btn-danger">删除</button>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modifyModal"
+                                onclick="modifyInput('${ci.getCOUNTRY()}', ${ci.getD11()},${ci.getD111()}, ${ci.getD112()}, ${ci.getD12()}, ${ci.getD121()}, ${ci.getD122()}, '${ci.getYEAR()}');">修改</button>
+                        <a class="btn btn-danger" href="DeleteServlet?COUNTRY=${ci.getCOUNTRY()}&YEAR=${ci.getYEAR()}">删除</a>
                     </td>
                 </tr>
             </c:forEach>
             </tbody>
         </table>
     </div>
+
 </div>
 
 </body>

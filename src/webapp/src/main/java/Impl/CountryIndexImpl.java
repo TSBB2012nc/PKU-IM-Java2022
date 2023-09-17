@@ -28,7 +28,7 @@ public class CountryIndexImpl implements CountryIndexDAO {
     @Override
     public int addCountryIndex(String COUNTRY, float D11, float D111, float D112, float D12, float D121, float D122, String YEAR) {
         int row = 0 ;
-        String sql = "INSERT INTO `java-2022`.`index` VALUES (?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO `java-2022`.`index` (COUNTRY, D11, D111, D112, D12, D121, D122, `YEAR`) VALUES (?,?,?,?,?,?,?,?)";
         try {
             row = qr.update(DBUtil.connect(), sql, COUNTRY, D11, D111, D112, D12, D121, D122, YEAR);
         } catch (SQLException e) {
@@ -38,11 +38,11 @@ public class CountryIndexImpl implements CountryIndexDAO {
     }
 
     @Override
-    public int updateCountryIndex(CountryIndex ci) {
+    public int updateCountryIndex(String COUNTRY, float D11, float D111, float D112, float D12, float D121, float D122, String YEAR) {
         int row = 0 ;
         String sql = "UPDATE `java-2022`.`index` SET D11 = ? , D111 = ? , D112 = ?, D12 = ?, D121 = ?, D122 = ? WHERE COUNTRY = ? AND `YEAR` = ?";
         try {
-            row = qr.update(DBUtil.connect(), sql, ci.getD11(), ci.getD111(), ci.getD112(),ci.getD12(), ci.getD121(), ci.getD122(), ci.getCOUNTRY(), ci.getYEAR());
+            row = qr.update(DBUtil.connect(), sql, D11, D111, D112, D12, D121, D122, COUNTRY, YEAR);
         } catch (SQLException e) {
             e.printStackTrace();
         }

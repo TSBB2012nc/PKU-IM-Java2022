@@ -43,3 +43,12 @@ Final project for Java in Dept. IM, Peking University
 ## 任务5：数据增删改查
 
 ![image-20230114184112403](README.assets/image-20230114184112403.png)
+
+数据增删改查任务由四个serverlet实现，交互界面通过dataview.jsp统一处理
+
+DAO有Insert、Update、Deleta、getAll（插入、更新、删除、查询全部）四种抽象功能，并通过DaoImpl统一实现；依照DaoImpl的内容创建如下：
+
+- InsertServerlet：负责实现插入功能
+- UpdateServerlet：负责更新
+- DeleteServerlet：删除一行
+- QueryServerlet：查询全部内容并反映在dataview中

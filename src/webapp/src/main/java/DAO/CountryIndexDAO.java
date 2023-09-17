@@ -12,7 +12,7 @@ public interface CountryIndexDAO {
     int addCountryIndex(String COUNTRY, float D11, float D111, float D112, float D12, float D121, float D122, String YEAR);
 
     // 修改国家指标
-    int updateCountryIndex(CountryIndex ci);
+    int updateCountryIndex(String COUNTRY, float D11, float D111, float D112, float D12, float D121, float D122, String YEAR);
 
     // 删除国家指标
     int delCountryIndex(String country, String year);
